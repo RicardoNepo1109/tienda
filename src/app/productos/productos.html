@@ -9,7 +9,7 @@
       <article class="producto-card">
         <div class="imagen-wrapper">
           <img
-            [src]="producto.image || producto.imageUrl"
+            [src]="producto.imageUrl || producto.imageUrl"
             [alt]="producto.title"
           >
         </div>
@@ -27,7 +27,7 @@
             <button
               type="button"
               class="btn btn-secundario"
-              (click)="verDetalle(producto)"
+              
             >
               Ver detalle
             </button>
@@ -35,7 +35,7 @@
             <button
               type="button"
               class="btn btn-primario"
-              (click)="agregarAlCarrito(producto)"
+              
             >
               Agregar
             </button>

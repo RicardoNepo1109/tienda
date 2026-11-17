@@ -1,0 +1,171 @@
+<section class="panel">
+  <header class="encabezado">
+    <p>Administración</p>
+    <h1>Panel de productos</h1>
+    <span>Consulta, crea y actualiza productos.</span>
+  </header>
+
+  <div class="gestion-panel">
+    <div class="tabla-contenedor">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Categoría</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (producto of productos(); track producto.id) {
+            <tr>
+              <td class="id">{{ producto.id }}</td>
+
+             <td>
+              <img
+                class="imagen-producto"
+                [src]="producto.imageUrl || producto.imageUrl"
+                [alt]="producto.title"
+              >
+            </td>
+
+              <td class="titulo">{{ producto.title }}</td>
+
+              <td>
+                <span class="categoria">
+                  {{ producto.category }}
+                </span>
+              </td>
+
+              <td class="descripcion">
+                {{ producto.description }}
+              </td>
+
+              <td class="precio">
+                ${{ producto.price }}
+              </td>
+
+              <td>
+                <div class="acciones">
+                  <button
+                    class="boton actualizar"
+                    type="button"
+                    (click)="edit(producto)"
+                  >
+                    Actualizar
+                  </button>
+
+                  <button
+                    class="boton borrar"
+                    type="button"
+                  >
+                    Borrar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="formulario-producto">
+      <p class="etiqueta-formulario">
+        {{ editingId() === null ? 'NUEVO PRODUCTO' : 'EDITANDO PRODUCTO' }}
+      </p>
+
+      <h2>
+        {{ editingId() === null ? 'Nuevo producto' : 'Actualizar producto' }}
+      </h2>
+
+      <form (ngSubmit)="save()">
+        <div class="campo-formulario">
+          <label for="title">Título</label>
+
+          <input
+            id="title"
+            name="title"
+            type="text"
+            [(ngModel)]="form.title"
+          >
+        </div>
+
+        <div class="campo-formulario">
+          <label for="price">Precio</label>
+
+          <input
+            id="price"
+            name="price"
+            type="number"
+            min="1"
+            [(ngModel)]="form.price"
+          >
+        </div>
+
+        <div class="campo-formulario">
+          <label for="category">Categoría</label>
+
+          <select
+            id="category"
+            name="category"
+            [(ngModel)]="form.category"
+          >
+            <option value="" disabled>
+              Selecciona una categoría
+            </option>
+
+            @for (category of categories(); track category) {
+              <option [value]="category">
+                {{ category }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="campo-formulario">
+          <label for="image">URL de la imagen</label>
+
+          <input
+            id="image"
+            name="image"
+            type="url"
+            [(ngModel)]="form.imageUrl"
+          >
+        </div>
+
+        <div class="campo-formulario">
+          <label for="description">Descripción</label>
+
+          <textarea
+            id="description"
+            name="description"
+            rows="5"
+            [(ngModel)]="form.description"
+          ></textarea>
+        </div>
+
+        @if (error()) {
+          <p class="mensaje-error">{{ error() }}</p>
+        }
+
+        <button class="guardar-producto" type="submit">
+          {{ editingId() === null ? 'Guardar producto' : 'Guardar cambios' }}
+        </button>
+
+        @if (editingId() !== null) {
+          <button
+            class="cancelar-producto"
+            type="button"
+            (click)="cancel()"
+          >
+            Cancelar edición
+          </button>
+        }
+      </form>
+    </aside>
+  </div>
+</section>
